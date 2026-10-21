@@ -4,7 +4,7 @@ import { images, type ImageKey } from '../data/images';
 
 interface Loc {
   id: string; name: string; image: string; description: string; hoursTitle: string;
-  hours: readonly string[]; phone: { label: string; tel: string }; address: string;
+  hours: readonly string[]; phone: { label: string; tel: string }; address: string; mapsUrl?: string;
 }
 interface Props { items: readonly Loc[]; id?: string }
 const { items, id } = Astro.props;
@@ -23,7 +23,7 @@ const { items, id } = Astro.props;
               <p class="p-l loc__desc">{l.description}</p>
               <p class="p-m loc__hours"><b>{l.hoursTitle}</b><br />{l.hours.map((h, i) => <>{i > 0 && <br />}{h}</>)}</p>
               <p class="p-m loc__phone">Telefon: <a href={`tel:${l.phone.tel}`}>{l.phone.label}</a></p>
-              <p class="p-m">{l.address}</p>
+              <p class="p-m">{l.mapsUrl ? <a href={l.mapsUrl} target="_blank" rel="noopener" aria-label={`${l.address} – ${l.name} in Google Maps öffnen`}>{l.address}</a> : l.address}</p>
             </div>
           </article>
         );

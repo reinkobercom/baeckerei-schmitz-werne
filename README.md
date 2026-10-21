@@ -26,7 +26,7 @@ In `src/data/announcements.ts` unter `hexenhausTermine` Datum, Text und Uhrzeite
 Optional: `visibleFrom` / `visibleUntil` (Format `'2026-11-19'`). Achtung: Datumsgrenzen greifen beim nächsten Build (nächster Commit oder „Redeploy“ in Vercel).
 
 ### Formular-Empfänger ändern
-In `src/data/forms.ts` beim jeweiligen Formular `to: ['info@baguetterie-schmitz.de']` anpassen (mehrere Adressen: `['a@x.de', 'b@x.de']`).
+In `src/data/forms.ts` beim jeweiligen Formular `to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency']` anpassen (mehrere Adressen: `['a@x.de', 'b@x.de']`).
 Absender ist `leads@reinkober-leadportal.com` (`mailConfig.from`) – die Domain muss in Resend verifiziert sein.
 „Antworten“ in der Benachrichtigung geht direkt an die Person, die das Formular ausgefüllt hat.
 

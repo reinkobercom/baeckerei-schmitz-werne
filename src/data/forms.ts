@@ -44,7 +44,7 @@ export const forms: Record<string, FormDef> = {
   'bastel-sets': {
     id: 'bastel-sets',
     subject: 'Neue Anfrage: Hexenhäuser Bastel-Sets',
-    to: ['info@baguetterie-schmitz.de'],
+    to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt unverbindlich vorbestellen',
     fields: [
       ...baseFields,
@@ -62,7 +62,7 @@ export const forms: Record<string, FormDef> = {
   'hexenhaus-basteln': {
     id: 'hexenhaus-basteln',
     subject: 'Neue Anmeldung: Hexenhaus basteln',
-    to: ['info@baguetterie-schmitz.de'],
+    to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt Platz anfragen',
     submitSubtitle: 'Keine verbindliche Buchung - bitte auf unsere Rückmeldung warten',
     fields: [
@@ -88,7 +88,7 @@ export const forms: Record<string, FormDef> = {
   kindergeburtstag: {
     id: 'kindergeburtstag',
     subject: 'Neue Anfrage: Kindergeburtstag',
-    to: ['info@baguetterie-schmitz.de'],
+    to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt abschicken',
     submitSubtitle: 'Keine verbindliche Buchung - bitte auf unsere Rückmeldung warten',
     fields: [
