@@ -90,14 +90,17 @@ export const POST: APIRoute = async ({ request, clientAddress, redirect }) => {
     return reply(500, { ok: false }, back);
   }
 
-  const rows = def.fields
-    .map((f) => [fieldLabels[f.name] || f.name, values[f.name] || '–'] as const);
+  const rows = [
+    ['Art der Anfrage', def.type] as const,
+    ...def.fields.map((f) => [fieldLabels[f.name] || f.name, values[f.name] || '–'] as const),
+  ];
   const text =
-    `${def.subject}\n\n` +
+    `${mailConfig.subject}\n\n` +
     rows.map(([k, v]) => `${k}: ${v}`).join('\n') +
     `\n\nDatenschutz zugestimmt: ja\nGesendet über ${site.url} (${new Date().toLocaleString('de-DE', { timeZone: 'Europe/Berlin' })})`;
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;color:#343434;font-size:15px;line-height:1.5">
-<h2 style="color:#325382;margin:0 0 16px">${esc(def.subject)}</h2>
+<h2 style="color:#325382;margin:0 0 4px">Neue Anfrage über die Website</h2>
+<p style="margin:0 0 16px;font-size:17px"><b>Art der Anfrage:</b> ${esc(def.type)}</p>
 <table cellpadding="8" cellspacing="0" style="border-collapse:collapse;max-width:640px;width:100%">
 ${rows.map(([k, v]) => `<tr><td style="border-bottom:1px solid #eee;font-weight:bold;vertical-align:top;width:180px">${esc(k)}</td><td style="border-bottom:1px solid #eee;white-space:pre-wrap">${esc(v)}</td></tr>`).join('\n')}
 <tr><td style="font-weight:bold">Datenschutz</td><td>zugestimmt</td></tr>
@@ -111,7 +114,7 @@ ${rows.map(([k, v]) => `<tr><td style="border-bottom:1px solid #eee;font-weight:
       from: mailConfig.from,
       to: def.to,
       replyTo: values.email,
-      subject: `${def.subject} – ${values.name}`,
+      subject: mailConfig.subject,
       text,
       html,
     });

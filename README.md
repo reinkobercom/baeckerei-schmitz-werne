@@ -27,6 +27,8 @@ Optional: `visibleFrom` / `visibleUntil` (Format `'2026-11-19'`). Achtung: Datum
 
 ### Formular-Empfänger ändern
 In `src/data/forms.ts` beim jeweiligen Formular `to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency']` anpassen (mehrere Adressen: `['a@x.de', 'b@x.de']`).
+**Betreff** aller Benachrichtigungen: in `src/data/forms.ts` unter `mailConfig.subject` (aktuell „Neue Anfrage | Bäckerei Schmitz - reinkober.com“). Welche Art von Anfrage es ist, steht in der Mail oben als „Art der Anfrage“ – den Text dafür legt das Feld `type` beim jeweiligen Formular fest.
+
 Absender ist `leads@reinkober-leadportal.com` (`mailConfig.from`) – die Domain muss in Resend verifiziert sein.
 „Antworten“ in der Benachrichtigung geht direkt an die Person, die das Formular ausgefüllt hat.
 

@@ -8,6 +8,8 @@ import { hexenhausTermine, isVisible } from './announcements';
 
 export const mailConfig = {
   from: 'leads@reinkober-leadportal.com',
+  /** Betreff ALLER Benachrichtigungen (gleich für jedes Formular) */
+  subject: 'Neue Anfrage | Bäckerei Schmitz - reinkober.com',
   /** Nach erfolgreichem Absenden */
   successRedirect: '/danke',
 };
@@ -19,8 +21,8 @@ export type Field =
 
 export type FormDef = {
   id: string;
-  /** Betreff der Benachrichtigung */
-  subject: string;
+  /** Art der Anfrage – steht in der Mail oben ("Art der Anfrage: …") */
+  type: string;
   to: string[];
   submitText: string;
   submitSubtitle?: string;
@@ -43,7 +45,7 @@ const details: Field = {
 export const forms: Record<string, FormDef> = {
   'bastel-sets': {
     id: 'bastel-sets',
-    subject: 'Neue Anfrage: Hexenhäuser Bastel-Sets',
+    type: 'Hexenhäuser Bastel-Sets (Vorbestellung)',
     to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt unverbindlich vorbestellen',
     fields: [
@@ -61,7 +63,7 @@ export const forms: Record<string, FormDef> = {
   },
   'hexenhaus-basteln': {
     id: 'hexenhaus-basteln',
-    subject: 'Neue Anmeldung: Hexenhaus basteln',
+    type: 'Hexenhaus basteln in der Backstube (Anmeldung)',
     to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt Platz anfragen',
     submitSubtitle: 'Keine verbindliche Buchung - bitte auf unsere Rückmeldung warten',
@@ -87,7 +89,7 @@ export const forms: Record<string, FormDef> = {
   },
   kindergeburtstag: {
     id: 'kindergeburtstag',
-    subject: 'Neue Anfrage: Kindergeburtstag',
+    type: 'Kindergeburtstag in der Backstube',
     to: ['info@baguetterie-schmitz.de', 'leads@reinkober.agency'],
     submitText: 'Jetzt abschicken',
     submitSubtitle: 'Keine verbindliche Buchung - bitte auf unsere Rückmeldung warten',
