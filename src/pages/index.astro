@@ -22,14 +22,18 @@ const s = sections.home;
   )}
 
   {s.simjueDienstag && isVisible(simjueDienstag) && (
+    <div data-visible-until={simjueDienstag.visibleUntil}>
     <Split cols={[0, 393, 31, 826]} pad={[30, 30]} class="simjue" label={simjueDienstag.title}>
       <Image slot="a" src={images.aktionSimjueDienstag.src} alt={images.aktionSimjueDienstag.alt} widths={[400, 800]} sizes="(min-width: 768px) 32vw, 92vw" class="simjue__img" />
       <div slot="b">
         <h2 class="t-head t-lg h-mb10">{simjueDienstag.title}</h2>
         <p class="p-l h-mb20">{simjueDienstag.text}</p>
-        <a class="btn btn--m h-mb20" href={simjueDienstag.buttonHref} target="_blank" rel="noopener"><span class="btn__label">{simjueDienstag.buttonText}</span></a>
+        {simjueDienstag.buttonText && simjueDienstag.buttonHref && (
+          <a class="btn btn--m h-mb20" href={simjueDienstag.buttonHref} target="_blank" rel="noopener"><span class="btn__label">{simjueDienstag.buttonText}</span></a>
+        )}
       </div>
     </Split>
+    </div>
   )}
 
   {s.standorteAlt && <LocationCards items={locationsOld} />}
@@ -120,7 +124,7 @@ const s = sections.home;
   .sets__btn { padding-top: 3px; padding-bottom: 6px; min-height: 61px; }
   @media (max-width: 767px) { .sets__btn { min-height: 64px; } }
 
-  :global(.simjue__img) { width: 100%; border-radius: 16px; }
+  :global(.simjue__img) { width: 100%; border-radius: var(--radius-lg); }
   :global(.feiertage) { margin: 0 auto; }
   :global(.feiertage__img) { width: 100%; border-radius: 4px; }
   .feiertage__txt { color: rgba(0, 0, 0, .5); display: grid; gap: 20px; }

@@ -78,5 +78,14 @@ const jsonLd = {
     </main>
     {chrome && <Footer />}
     <ConsentBanner />
+    <script is:inline>
+      // Befristete Inhalte (data-visible-until="JJJJ-MM-TT") auch ohne neuen Build pünktlich ausblenden
+      (function () {
+        var d = new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Berlin' });
+        document.querySelectorAll('[data-visible-until]').forEach(function (el) {
+          if (d > el.getAttribute('data-visible-until')) el.remove();
+        });
+      })();
+    </script>
   </body>
 </html>

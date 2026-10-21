@@ -18,7 +18,8 @@ export type Announcement = {
 
 export function isVisible(a: Announcement, today = new Date()): boolean {
   if (!a.visible) return false;
-  const day = today.toISOString().slice(0, 10);
+  // Datum in deutscher Zeit (nicht UTC), damit der Wechsel um Mitternacht in Werne passiert
+  const day = today.toLocaleDateString('sv-SE', { timeZone: 'Europe/Berlin' });
   if (a.visibleFrom && day < a.visibleFrom) return false;
   if (a.visibleUntil && day > a.visibleUntil) return false;
   return true;
@@ -66,14 +67,16 @@ export const hexenhausVorankuendigung: Announcement & { title: string; text: str
 export const simjueDienstag: Announcement & {
   title: string;
   text: string;
-  buttonText: string;
-  buttonHref: string;
+  /** Leer lassen = kein Button */
+  buttonText?: string;
+  buttonHref?: string;
 } = {
   visible: true,
+  // Letzter Tag der Anzeige: 27.10.2026 – ab dem 28.10.2026 ist die Sektion automatisch weg
+  visibleUntil: '2026-10-27',
   title: 'SIM-JÜ Dienstag in der Backstube!',
   text: 'Traditionsgemäß findet am Sim-Jü-Dienstag das Frühschoppen bei uns an der Backstube statt. Heiße Wurstbrötchen und kühle Pilse (und weitere Getränke) warten auf euch – und natürlich gibt’s auch wieder leckere Salzkuchen mit Mett oder Käse.',
-  buttonText: 'Hier alle Informationen',
-  buttonHref: 'https://fb.me/e/5bsBg1w0I',
+  // Button entfernt (früher: 'Hier alle Informationen' → https://fb.me/e/5bsBg1w0I)
 };
 
 /** Öffnungszeiten an den Feiertagen (Startseite, zusätzlich Schalter in sections.ts) */
