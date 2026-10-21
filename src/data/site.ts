@@ -82,7 +82,7 @@ export const nav = [
   { label: 'Kindergeburtstag', href: '/kindergeburtstag-werne' },
 ];
 
-/** Ab diesem Menüpunkt (Index) landen die Einträge auf großen Bildschirmen im "…"-Menü */
+/** Ab diesem Menüpunkt (Index) landen die Einträge bei mittleren Bildschirmbreiten (1024–1199 px) im "…"-Menü */
 export const navOverflowFrom = 3;
 
 export const footerNav = [

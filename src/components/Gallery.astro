@@ -34,7 +34,7 @@ const { rows } = Astro.props;
   .gal__row { display: flex; flex-direction: column; }
   .gal__item { padding: 4px; height: var(--rh); }
   .gal__box { height: 100%; overflow: hidden; }
-  .gal__box :global(img) { width: 100%; height: var(--rh); object-fit: cover; max-width: none; }
+  .gal__box :global(img) { width: 100%; height: 256px; object-fit: cover; max-width: none; }
   @media (min-width: 768px) {
     .gal__row { flex-direction: row; }
     .gal__item { flex: var(--w) 1 0; min-width: 0; }

@@ -21,6 +21,9 @@ const logo = images.logoSchmitz;
         {main.map((item) => (
           <li><a class:list={['menu__link', { 'is-active': isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}><span class="menu__title">{item.label}</span></a></li>
         ))}
+        {more.map((item) => (
+          <li class="nav-wide"><a class:list={['menu__link', { 'is-active': isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}><span class="menu__title">{item.label}</span></a></li>
+        ))}
         {more.length > 0 && (
           <li class="more">
             <button class="menu__link more__btn" type="button" aria-expanded="false" aria-controls="more-menu" aria-label="Weitere Seiten">
@@ -99,11 +102,11 @@ const logo = images.logoSchmitz;
 
 <style>
   .hdr { background: #fff; position: relative; z-index: 50; }
-  .hdr__inner { display: flex; align-items: center; justify-content: space-between; min-height: 137px; padding: 24px 0; }
+  .hdr__inner { display: flex; align-items: center; justify-content: space-between; min-height: 135px; padding: 23px 0; }
   .hdr__logo { display: block; flex: none; }
   .hdr__logo :global(img) { width: 178px; height: 89px; object-fit: cover; }
 
-  .hdr__nav { display: none; align-items: center; gap: 27px; }
+  .hdr__nav { display: none; align-items: center; gap: 26px; }
   ul { list-style: none; margin: 0; padding: 0; }
   .menu { display: flex; align-items: center; }
   .menu__link {
@@ -118,7 +121,13 @@ const logo = images.logoSchmitz;
   }
   .menu__link:hover .menu__title::before, .menu__link.is-active .menu__title::before { transform: scaleX(1); }
   .more { position: relative; }
-  .more__btn { padding: 14px 12px; }
+  .more__btn { padding: 14px 12px; width: 50px; justify-content: center; }
+  /* Ab 1200 px passen alle Menüpunkte nebeneinander (wie im Original); darunter landet "Kindergeburtstag" im "…"-Menü */
+  .nav-wide { display: none; }
+  @media (min-width: 1200px) {
+    .nav-wide { display: block; }
+    .more { visibility: hidden; }
+  }
   .more__list {
     position: absolute; right: -60px; top: calc(100% + 20px); min-width: 169px; padding: 8px; background: #fff; border-radius: 4px;
     box-shadow: var(--shadow-card); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .25s, transform .25s, visibility .25s;
