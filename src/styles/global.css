@@ -78,7 +78,7 @@ h1, h2, h3 { margin: 0; font-weight: 700; }
 .t-xl { font-size: clamp(20px, calc(7.5472vw + 6.0377px), 64px); line-height: 1.1616; }
 /* m: 48px ab 768, darunter fließend (28,98px bei 390) */
 .t-lg { font-size: clamp(20px, calc(5.0314vw + 9.359px), 48px); line-height: 1.1808; }
-.t-md { font-size: clamp(24px, calc(2.1vw + 15.9px), 32px); line-height: 1.2; }
+.t-md { font-size: 32px; line-height: 1.2; }
 .t-card { font-size: 24px; line-height: 1.2096; }
 
 .p-xl { font-size: 20px; line-height: 1.5; }

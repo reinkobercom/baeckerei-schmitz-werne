@@ -63,7 +63,7 @@ const img = images.backstubeKinderBacken;
 <style>
   .offer { padding: 40px 0; }
   @media (min-width: 768px) { .offer { padding: 80px 0; } }
-  .offer__box { width: calc(100% - 48px); margin-inline: auto; background: #fff; border-radius: 8px; padding: 0; display: flex; flex-direction: column; gap: 32px; }
+  .offer__box { width: calc(100% - 48px); margin-inline: auto; background: #fff; border-radius: 8px; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
   @media (min-width: 768px) {
     .offer__box { width: min(1400px, calc(100% - 64px)); padding: 56px; flex-direction: row; align-items: flex-start; gap: 0; }
     .offer__a { margin-left: 2.22%; width: 50.63%; align-self: center; }
@@ -74,8 +74,9 @@ const img = images.backstubeKinderBacken;
   .offer__prices { margin-bottom: 30px; }
   .offer__prices p + p { margin-top: 16px; }
   .offer__btn { width: 66.875%; margin-bottom: 30px; }
-  @media (max-width: 767px) { .offer__btn { width: 100%; } }
-  .offer__imgwrap { border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-card); margin-bottom: 13px; }
+  .offer__imgwrap { border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-card); margin-bottom: 10px; }
+  @media (min-width: 768px) { .offer__imgwrap { margin-bottom: 13px; } }
+  .offer__b p { margin-bottom: 20px; }
   .offer__imgwrap :global(.offer__img) { width: 100%; aspect-ratio: 439 / 307; object-fit: cover; transition: transform .5s; }
   .offer__imgwrap:hover :global(.offer__img) { transform: scale(1.05); }
 </style>
