@@ -15,7 +15,7 @@ const logo = images.logoSchmitz;
       <li><a class="ftr__btn ftr--ig" href={social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a></li>
       <li><a class="ftr__btn ftr--wa" href={social.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" size={20} /></a></li>
     </ul>
-    <p class="p-l ftr__copy"><b>© Copyright Bäckerei Schmitz {site.copyrightYear}.</b> Alle Rechte vorbehalten.</p>
+    <p class="p-l ftr__copy"><b>© Copyright Bäckerei Schmitz <span class="ftr__year">{new Date().getFullYear()}</span>.</b> Alle Rechte vorbehalten.</p>
     <nav aria-label="Rechtliches">
       <ul class="ftr__nav">
         {footerNav.map((i) => <li><a href={i.href}><span>{i.label}</span></a></li>)}
@@ -23,6 +23,11 @@ const logo = images.logoSchmitz;
     </nav>
   </div>
 </footer>
+
+<script>
+  // Jahr immer aktuell halten – auch wenn die Seite länger nicht neu gebaut wurde
+  document.querySelectorAll('.ftr__year').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
+</script>
 
 <style>
   .ftr { background: #fff; padding: 71px 0 58px; }

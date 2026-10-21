@@ -22,7 +22,7 @@ export const site = {
     country: 'DE',
   },
   taxNumber: '333 5121 2357',
-  copyrightYear: 2026,
+  // Das Copyright-Jahr im Footer wird automatisch gesetzt.
 };
 
 export const social = {

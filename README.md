@@ -9,7 +9,7 @@ Alle Inhalte, die sich öfter ändern, stehen in `src/data/`. Datei auf GitHub �
 
 | Was | Datei |
 |---|---|
-| Kontakt, Social-Media-Links, Standorte, **Öffnungszeiten**, Menü | `src/data/site.ts` |
+| Kontakt, Social-Media-Links, Standorte, **Öffnungszeiten**, Menü (das Copyright-Jahr im Footer aktualisiert sich automatisch) | `src/data/site.ts` |
 | Sektionen **ein-/ausschalten** (`true` / `false`) | `src/data/sections.ts` |
 | **Termine** Hexenhaus basteln, Aktionen (SIM-JÜ), Feiertags-Öffnungszeiten | `src/data/announcements.ts` |
 | Bilder und **Alt-Texte** | `src/data/images.ts` (Bilddateien in `src/assets/images/`) |
