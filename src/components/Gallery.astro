@@ -1,0 +1,42 @@
+---
+/**
+ * Bildergalerie über die volle Breite (Nachbau der Onepage "masonry-horizontal"-Galerie).
+ * rows: Bildreihen auf großen Bildschirmen; die Zahl ist die relative Breite (gemessen am Original bei 1440 px).
+ */
+import { Image } from 'astro:assets';
+import { images, type ImageKey } from '../data/images';
+interface Props { rows: [ImageKey, number][][] }
+const { rows } = Astro.props;
+---
+<section class="gal" aria-label="Bildergalerie">
+  {rows.map((row) => (
+    <div class="gal__row">
+      {row.map(([key, w]) => (
+        <div class="gal__item" style={`--w:${w}`}>
+          <div class="gal__box">
+            <Image
+              src={images[key].src}
+              alt={images[key].alt}
+              widths={[480, 800, 1200]}
+              sizes={`(min-width: 768px) ${Math.round((w / row.reduce((a, [, x]) => a + x, 0)) * 100)}vw, 100vw`}
+              loading="lazy"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  ))}
+</section>
+
+<style>
+  .gal { --rh: 150px; }
+  @media (min-width: 460px) { .gal { --rh: 256px; } }
+  .gal__row { display: flex; flex-direction: column; }
+  .gal__item { padding: 4px; height: var(--rh); }
+  .gal__box { height: 100%; overflow: hidden; }
+  .gal__box :global(img) { width: 100%; height: var(--rh); object-fit: cover; max-width: none; }
+  @media (min-width: 768px) {
+    .gal__row { flex-direction: row; }
+    .gal__item { flex: var(--w) 1 0; min-width: 0; }
+  }
+</style>

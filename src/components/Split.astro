@@ -1,0 +1,38 @@
+---
+/**
+ * Zweispaltige Sektion (Bild | Text oder Text | Bild).
+ * Spaltenmaße in px, gemessen am Original bei 1440 px Fensterbreite (Container 1250 px);
+ * sie werden in Prozent umgerechnet und skalieren mit dem Container.
+ * Mobil (< 768 px) stehen die Spalten untereinander in Quell-Reihenfolge.
+ */
+interface Props {
+  /** Abstand links vor Spalte A, Breite A, Abstand zwischen A und B, Breite B (px bei 1250 Container) */
+  cols: [number, number, number, number];
+  /** Innenabstand oben/unten am Desktop (mobil die Hälfte) */
+  pad: [number, number];
+  align?: 'center' | 'start';
+  class?: string;
+  id?: string;
+  /** Abstand zwischen den Spalten mobil */
+  mobileGap?: number;
+  label?: string;
+}
+const { cols, pad, align = 'center', class: cls, id, mobileGap = 24, label } = Astro.props;
+const pct = (v: number) => `${((v / 1250) * 100).toFixed(4)}%`;
+const style = `--pre:${pct(cols[0])};--wa:${pct(cols[1])};--gap:${pct(cols[2])};--wb:${pct(cols[3])};--pt:${pad[0]}px;--pb:${pad[1]}px;--mgap:${mobileGap}px;--al:${align}`;
+---
+<section class:list={['split', cls]} id={id} style={style} aria-label={label}>
+  <div class="container split__row">
+    <div class="split__a"><slot name="a" /></div>
+    <div class="split__b"><slot name="b" /></div>
+  </div>
+</section>
+
+<style>
+  .split__row { display: flex; flex-direction: column; gap: var(--mgap); padding: calc(var(--pt) / 2) 0 calc(var(--pb) / 2); }
+  @media (min-width: 768px) {
+    .split__row { flex-direction: row; align-items: var(--al); gap: 0; padding: var(--pt) 0 var(--pb); }
+    .split__a { margin-left: var(--pre); width: var(--wa); flex: none; }
+    .split__b { margin-left: var(--gap); width: var(--wb); flex: none; }
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { images, type ImageKey } from '../data/images';
+import { sections } from '../data/sections';
+import { social } from '../data/site';
+
+const s = sections.bastelSets;
+const rabatt = 'ab 50 Stk. - 5% Rabatt\nab 100 Stk. - 10% Rabatt\nab 200 Stk. - 20% Rabatt';
+const sets: { title: string; image: ImageKey; intro: string; list: string; total: string; gapAfterTotal?: boolean }[] = [
+  { title: 'Kleiner Bausatz', image: 'bausatzKlein', intro: 'Einzeln:', list: '- Lebkuchenteile - 3,50€\n- Süßigkeiten - 2,00€\n- Hexengruppe - 2,00€\n- Zuckerschnee - 2,40€', total: 'oder komplett für 9,90€', gapAfterTotal: true },
+  { title: 'Großer Bausatz', image: 'bausatzGross', intro: 'Einzeln:', list: '- Lebkuchenteile - 11,00€\n- Süßigkeiten - 3,50€\n- Hexengruppe - 2,00€\n- Zuckerschnee - 5,50€', total: 'oder komplett für 22,00€' },
+  { title: 'XXL Bausatz', image: 'bausatzXxl', intro: 'Nur komplett als Rohbau, zum selber dekorieren, geliefert', list: '- Lebkuchen Rohbau - 35,00€\n- Zuckerschnee im 5L Eimer - 35,00€\n- Süßigkeiten - 25,00€', total: 'oder komplett für 95,00€' },
+];
+---
+<Base
+  title="Hexenhäuser Bastel-Sets"
+  description="Hexenhäuser Bastel-Sets der Bäckerei Schmitz in Werne – für Schulen, Kindergärten, Vereine und Zuhause. Kleiner, großer oder XXL-Bausatz, mit Mengenrabatt. Jetzt online vorbestellen."
+>
+  {s.hero && <Hero image="heroHexenhaus" title="Hexenhäuser Bastel-Sets" text="Für Schulen, Kindergärten, Vereine und viele mehr" pad={120} />}
+
+  {s.preise && (
+    <section class="sets" aria-label="Bausätze und Preise">
+      <div class="container">
+        <div class="sets__grid">
+          {sets.map((x) => (
+            <article class="card">
+              <Image src={images[x.image].src} alt={images[x.image].alt} widths={[400, 700, 1000]} sizes="(min-width: 768px) 31vw, 92vw" class="card__img" />
+              <div class="card__body">
+                <h2 class="t-head t-card card__title">{x.title}</h2>
+                <div class="p-l card__txt">
+                  <p>{x.intro}</p>
+                  <p class="pre">{x.list}</p>
+                  {x.gapAfterTotal ? (
+                    <p class="pre"><b>{x.total}</b>{'\n\n'}<i>{rabatt}</i></p>
+                  ) : (
+                    <>
+                      <p><b>{x.total}</b></p>
+                      <p class="pre"><i>{rabatt}</i></p>
+                    </>
+                  )}
+                </div>
+                <a class="btn btn--m btn--full card__btn" href={social.whatsapp} target="_blank" rel="noopener"><span class="btn__label">Per WhatsApp anfragen</span></a>
+                <a class="btn btn--m btn--line btn--full" href="#vorbestellen"><span class="btn__label">Online vorbestellen</span></a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {s.formular && (
+    <InquiryForm
+      form="bastel-sets"
+      id="vorbestellen"
+      label="Bequem & einfach"
+      title="Jetzt hier online Hexenhäuser Bastel-Sets vorbestellen!"
+      text="Bitte Daten vollständig angeben. Wir setzen uns anschließend zwecks weiterer Absprachen wie Datum oder optionaler Mengenrabatte mit dir in Verbindung."
+    />
+  )}
+
+  {s.galerie && (
+    <Gallery rows={[
+      [['backstubeKinderBacken', 535], ['standortBakerBoys', 441], ['bakerBoysSchaufenster', 465]],
+      [['heroBroetchenRegal', 490], ['verkaufswagen', 286], ['standortBackstubeLive', 490], ['lebkuchenhaus', 175]],
+    ]} />
+  )}
+</Base>
+
+<style>
+  .sets { padding: 48px 0 47px; }
+  @media (min-width: 768px) { .sets { padding: 49px 0 70px; } }
+  .sets__grid { display: grid; gap: 24px; padding: 12px; }
+  @media (min-width: 768px) { .sets__grid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+  .card { background: #fff; border-radius: 4px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .card :global(.card__img) { width: 100%; aspect-ratio: 393 / 471; object-fit: cover; }
+  .card__body { padding: 20px 16px 36px; }
+  @media (max-width: 767px) { .card__body { padding: 20px 24px 44px; } }
+  .card__title { margin-bottom: 10px; }
+  .card__txt { margin-bottom: 20px; }
+  .card__txt p + p { margin-top: 16px; }
+  .card__btn { margin-bottom: 20px; }
+</style>

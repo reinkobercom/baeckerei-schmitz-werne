@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { images } from '../data/images';
+import { footerNav, site, social } from '../data/site';
+const logo = images.logoSchmitz;
+---
+<footer class="ftr">
+  <div class="container ftr__inner">
+    <a href="/" class="ftr__logo" aria-label="Bäckerei Schmitz – zur Startseite">
+      <Image src={logo.src} alt={logo.alt} width={200} height={100} widths={[200, 400]} sizes="200px" />
+    </a>
+    <ul class="ftr__soc">
+      <li><a class="ftr__btn ftr--fb" href={social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" size={20} /></a></li>
+      <li><a class="ftr__btn ftr--ig" href={social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" size={20} /></a></li>
+      <li><a class="ftr__btn ftr--wa" href={social.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" size={20} /></a></li>
+    </ul>
+    <p class="p-l ftr__copy"><b>© Copyright Bäckerei Schmitz {site.copyrightYear}.</b> Alle Rechte vorbehalten.</p>
+    <nav aria-label="Rechtliches">
+      <ul class="ftr__nav">
+        {footerNav.map((i) => <li><a href={i.href}><span>{i.label}</span></a></li>)}
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: #fff; padding: 71px 0 58px; }
+  .ftr__inner { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 775px; }
+  .ftr__logo :global(img) { width: 200px; height: 100px; object-fit: cover; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .ftr__soc { display: flex; gap: 16px; margin-top: 20px; }
+  .ftr__btn {
+    display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 100px; color: #fff;
+    position: relative; overflow: hidden;
+  }
+  .ftr__btn::before { content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, .1); opacity: 0; transition: opacity .3s; }
+  .ftr__btn:hover::before { opacity: 1; }
+  .ftr__btn :global(svg) { position: relative; }
+  .ftr--fb { background: var(--fb); }
+  .ftr--ig { background: var(--insta); }
+  .ftr--wa { background: var(--wa); }
+  .ftr__copy { margin-top: 30px; }
+  .ftr__nav { display: flex; justify-content: center; flex-wrap: wrap; margin-top: -2px; }
+  .ftr__nav a {
+    display: block; padding: 12px; text-decoration: none; color: var(--text);
+    font-family: var(--font-head); font-weight: 700; font-size: 16.8px; line-height: 20.16px;
+  }
+  .ftr__nav span { position: relative; display: block; }
+  .ftr__nav span::before { content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; background: var(--blue); transform: scaleX(0); transition: transform .3s; }
+  .ftr__nav a:hover span::before { transform: scaleX(1); }
+  @media (max-width: 767px) {
+    .ftr { padding: 35px 0 23px; }
+    .ftr__nav { flex-direction: column; align-items: center; }
+    .ftr__nav a { padding: 12px; }
+  }
+</style>

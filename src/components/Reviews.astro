@@ -1,0 +1,24 @@
+---
+/** "Das sagen unsere Kunden" – Trustindex-Widget, lädt erst nach Einwilligung (siehe ConsentBanner) */
+const src = 'https://cdn.trustindex.io/loader.js?17f792683ca057931436422c541';
+---
+<section class="rev sec--blue on-dark" aria-labelledby="rev-title">
+  <div class="container">
+    <h2 class="t-head t-lg center rev__title" id="rev-title">Das sagen unsere Kunden</h2>
+    <div class="rev__widget" data-consent="trustindex" data-src={src}>
+      <div class="reviews__placeholder">
+        <button type="button" class="btn btn--m btn--cream" data-consent-open><span class="btn__label">Google-Bewertungen anzeigen</span></button>
+        <p class="rev__hint">Beim Anzeigen werden Daten an Trustindex übertragen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rev { padding: 50px 0; }
+  @media (min-width: 768px) { .rev { padding: 100px 0; } }
+  .rev__title { max-width: 601px; margin: 0 auto 68px; }
+  .rev__widget { min-height: 20px; }
+  .reviews__placeholder { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .rev__hint { font-size: 13px; opacity: .75; }
+</style>

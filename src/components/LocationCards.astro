@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import { images, type ImageKey } from '../data/images';
+
+interface Loc {
+  id: string; name: string; image: string; description: string; hoursTitle: string;
+  hours: readonly string[]; phone: { label: string; tel: string }; address: string;
+}
+interface Props { items: readonly Loc[]; id?: string }
+const { items, id } = Astro.props;
+---
+<section class="loc" id={id} aria-label="Unsere Standorte">
+  <div class="container">
+    <div class="loc__grid">
+      {items.map((l) => {
+        const img = images[l.image as ImageKey];
+        return (
+          <article class="loc__card">
+            <Image src={img.src} alt={img.alt} widths={[400, 640, 900, 1200]} sizes="(min-width: 768px) 48vw, 92vw" class="loc__img" />
+            <div class="loc__body">
+              <h3 class="t-head t-card">{l.name}</h3>
+              <p class="p-l loc__desc">{l.description}</p>
+              <p class="p-m loc__hours"><b>{l.hoursTitle}</b><br />{l.hours.map((h, i) => <>{i > 0 && <br />}{h}</>)}</p>
+              <p class="p-m loc__phone">Telefon: <a href={`tel:${l.phone.tel}`}>{l.phone.label}</a></p>
+              <p class="p-m">{l.address}</p>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<style>
+  .loc { padding: 48px 0 2px; }
+  @media (min-width: 768px) { .loc { padding-top: 49px; } }
+  .loc__grid { display: grid; gap: 24px; padding: 12px; }
+  @media (min-width: 768px) { .loc__grid { grid-template-columns: 1fr 1fr; } }
+  .loc__card { background: #fff; border-radius: 4px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .loc__card :global(.loc__img) { width: 100%; aspect-ratio: 601 / 415; object-fit: cover; border-radius: 4px 4px 0 0; }
+  .loc__body { padding: 20px 24px 24px; }
+  @media (min-width: 768px) { .loc__body { padding: 20px 16px 16px; } }
+  .loc__body > * { margin-bottom: 20px; }
+  .loc__body > *:last-child { margin-bottom: 20px; }
+  .loc__body h3 { margin-bottom: 10px; }
+  .loc__phone { margin-bottom: 10px !important; }
+  .loc__body a { text-decoration: none; }
+  .loc__body a:hover { text-decoration: underline; }
+</style>

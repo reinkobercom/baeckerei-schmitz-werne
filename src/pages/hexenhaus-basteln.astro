@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { sections } from '../data/sections';
+import { hexenhausTermine, hexenhausVorankuendigung, isVisible } from '../data/announcements';
+
+const s = sections.hexenhausBasteln;
+const termine = hexenhausTermine.filter((t) => isVisible(t));
+---
+<Base
+  title="Hexenhaus basteln"
+  description="Hexenhaus basteln in der Backstube der Bäckerei Schmitz in Werne: Kinder bauen Lebkuchenhäuser mit Zuckerguss und Süßigkeiten. Termine, Preise und Online-Anmeldung."
+>
+  {s.hero && <Hero image="heroHexenhaus" title="Hexenhaus basteln" text="Bei uns in der Backstube" pad={120} />}
+
+  {s.ankuendigung && isVisible(hexenhausVorankuendigung) && (
+    <section class="intro" aria-labelledby="ank-title">
+      <div class="container intro__col">
+        <h2 class="t-head t-md" id="ank-title">{hexenhausVorankuendigung.title}</h2>
+        <p class="p-l">{hexenhausVorankuendigung.text}</p>
+      </div>
+    </section>
+  )}
+
+  {s.einladung && (
+    <section class="intro" aria-labelledby="einl-title">
+      <div class="container intro__col">
+        <h2 class="t-head t-md" id="einl-title">Hallo Kinder! Es ist wieder so weit!</h2>
+        <p class="p-l">Bei uns in der Backstube basteln wir wieder Hexenhäuser aus Lebkuchen. Ihr setzt die Häuserteile mit Zuckerguss zusammen und anschließend wird es mit Süßigkeiten beklebt! Anmeldung hier online, in der Baguetterie, bei den Baker-Boys oder per Telefon 02389/2534.</p>
+      </div>
+    </section>
+  )}
+
+  {s.termine && termine.length > 0 && (
+    <section class="termine" aria-label="Termine">
+      <div class="container">
+        <ul class="termine__grid">
+          {termine.map((t) => (
+            <li class="termin">
+              <span class="termin__line" aria-hidden="true"></span>
+              <h3 class="t-head t-card termin__title"><span>{t.title}</span><span>{t.date}</span></h3>
+              <p class="p-m">{t.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {s.formular && (
+    <InquiryForm
+      form="hexenhaus-basteln"
+      id="anmeldung"
+      label="Bei uns in der backstube - nur für kinder"
+      title="Jetzt hier online Platz zum Hexenhaus basteln anfragen!"
+      text="Bitte Daten vollständig angeben. Wir setzen uns anschließend zwecks weiterer Absprachen mit dir in Verbindung."
+      note="Hinweis: Dies ist keine verbindliche Buchung - bitte auf unsere Rückmeldung per Telefon oder E-Mail warten!"
+      pad={[60, 80]}
+    />
+  )}
+
+  {s.galerie && (
+    <Gallery rows={[
+      [['backstubeKinderBacken', 535], ['standortBakerBoys', 441], ['bakerBoysSchaufenster', 465]],
+      [['heroBroetchenRegal', 490], ['verkaufswagen', 286], ['standortBackstubeLive', 490], ['lebkuchenhaus', 175]],
+    ]} />
+  )}
+
+  {s.cta && (
+    <section class="cta sec--blue on-dark" aria-labelledby="cta-title">
+      <div class="container cta__col">
+        <h2 class="t-head t-lg" id="cta-title">Bastel-Sets für Zuhause</h2>
+        <p class="p-l cta__text">Jetzt hier bestellen:</p>
+        <a class="btn btn--m btn--cream" href="/hexenhauser-bastel-sets"><span class="btn__label">Zu den Bastel-Sets</span></a>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .intro { padding: 35px 0 15px; text-align: center; }
+  @media (min-width: 768px) { .intro { padding: 70px 0 30px; } .intro__col { max-width: 87.36%; } }
+  .intro h2 { margin-bottom: 20px; }
+  .intro p { margin-bottom: 30px; }
+
+  .termine { padding: 5px 0 35px; }
+  @media (min-width: 768px) { .termine { padding: 11px 0 70px; } }
+  .termine__grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 35px; }
+  @media (min-width: 768px) { .termine__grid { grid-template-columns: repeat(3, 1fr); } }
+  .termin { background: var(--grey); border-radius: 4px; padding: 32px; text-align: center; min-height: 246px; display: flex; flex-direction: column; justify-content: center; }
+  .termin__line { display: block; height: 36px; }
+  .termin__title { display: flex; flex-direction: column; margin-bottom: 20px; }
+  .termin p { margin-bottom: 20px; }
+
+  .cta { padding: 30px 0 50px; text-align: center; }
+  @media (min-width: 768px) { .cta { padding: 60px 0 100px; } .cta__col { max-width: 74.72%; } }
+  .cta h2 { margin-bottom: 20px; }
+  .cta__text { color: rgba(255, 255, 255, .51); margin-bottom: 10px; }
+  .cta .btn { margin-bottom: 20px; }
+</style>

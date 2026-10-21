@@ -1,0 +1,206 @@
+---
+import Icon from './Icon.astro';
+import { forms } from '../data/forms';
+import { site } from '../data/site';
+
+interface Props {
+  form: keyof typeof forms;
+  id: string;
+  label: string;
+  title: string;
+  text: string;
+  note?: string;
+  pad?: [number, number];
+}
+const { form, id, label, title, text, note, pad = [80, 80] } = Astro.props;
+const def = forms[form];
+const phoneLink = `<a href="tel:${site.emergencyPhone.tel}">${site.emergencyPhone.label}</a>`;
+---
+<section class="frm sec--blue on-dark" id={id} style={`--pt:${pad[0]}px;--pb:${pad[1]}px`} aria-labelledby={`${id}-title`} data-phone={phoneLink}>
+  <div class="container">
+    <div class="frm__col">
+      <p class="pill frm__pill">{label}</p>
+      <h2 class="t-head t-lg frm__title" id={`${id}-title`}>{title}</h2>
+      <p class="p-l frm__text">{text}</p>
+
+      <form class="frm__form" method="post" action="/api/anfrage" novalidate data-form={def.id}>
+        <input type="hidden" name="form" value={def.id} />
+        <div class="hp" aria-hidden="true">
+          <label>Bitte leer lassen <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        {def.fields.map((f) => {
+          const fid = `${id}-${f.name}`;
+          const ph = f.placeholder + (f.required ? ' *' : '');
+          return (
+            <div class="fld" data-field={f.name}>
+              <label class="sr-only" for={fid}>{ph}</label>
+              {f.type === 'textarea' ? (
+                <textarea id={fid} name={f.name} placeholder={ph} required={f.required} rows="3" class="inp inp--area"></textarea>
+              ) : f.type === 'select' ? (
+                <div class="sel">
+                  <select id={fid} name={f.name} required={f.required} class="inp inp--sel">
+                    <option value="" selected disabled={f.required}>{ph}</option>
+                    {f.options.map((o) => <option value={o}>{o}</option>)}
+                  </select>
+                  <Icon name="chevron" size={20} class="sel__chev" />
+                </div>
+              ) : (
+                <div class:list={['ico', { 'ico--on': 'icon' in f && f.icon }]}>
+                  {'icon' in f && f.icon && <Icon name={f.icon} size={17} class="ico__svg" />}
+                  <input id={fid} name={f.name} type={f.type} placeholder={ph} required={f.required} autocomplete={'autocomplete' in f ? f.autocomplete : undefined} class="inp" />
+                </div>
+              )}
+              <p class="fld__err" id={`${fid}-err`} hidden></p>
+            </div>
+          );
+        })}
+
+        <button type="submit" class="btn btn--l btn--cream btn--full frm__submit">
+          <span class="btn__label">{def.submitText}</span>
+          {def.submitSubtitle && <span class="btn__sub">{def.submitSubtitle}</span>}
+        </button>
+
+        <div class="fld fld--chk" data-field="datenschutz">
+          <label class="chk">
+            <input type="checkbox" name="datenschutz" value="ja" required />
+            <span class="chk__box" aria-hidden="true"></span>
+            <span class="chk__label">Mit dem Absenden des Formulars erkläre ich mich mit den <a href="/datenschutz" target="_blank">Datenschutzbestimmungen einverstanden</a> *</span>
+          </label>
+          <p class="fld__err" hidden></p>
+        </div>
+
+        <p class="frm__status" role="alert" aria-live="assertive" hidden>
+          Leider hat das Absenden nicht geklappt. Bitte versuche es noch einmal oder ruf uns an: <a href={`tel:${site.emergencyPhone.tel}`}>{site.emergencyPhone.label}</a>.
+        </p>
+      </form>
+
+      {note && <p class="frm__note"><b>{note}</b></p>}
+    </div>
+  </div>
+</section>
+
+<script>
+  const MSG = {
+    required: 'Bitte fülle dieses Feld aus.',
+    email: 'Bitte gib eine gültige E-Mail-Adresse an.',
+    datenschutz: 'Bitte stimme der Datenschutzerklärung zu.',
+  };
+  const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.frm__status')!;
+    const submit = form.querySelector<HTMLButtonElement>('.frm__submit')!;
+    const phone = form.closest<HTMLElement>('[data-phone]')?.dataset.phone || '';
+    const fail = `Leider hat das Absenden nicht geklappt. Bitte versuche es noch einmal oder ruf uns an: ${phone}.`;
+    // Fallback ohne JavaScript: der Server leitet mit ?fehler=<formular> zurück
+    if (new URLSearchParams(location.search).get('fehler') === form.dataset.form) status.hidden = false;
+
+    const setErr = (name: string, msg: string) => {
+      const wrap = form.querySelector<HTMLElement>(`[data-field="${name}"]`);
+      if (!wrap) return;
+      const p = wrap.querySelector<HTMLElement>('.fld__err')!;
+      const ctl = wrap.querySelector<HTMLInputElement>('input,select,textarea');
+      p.textContent = msg; p.hidden = !msg;
+      if (ctl) { ctl.setAttribute('aria-invalid', msg ? 'true' : 'false'); if (p.id) ctl.setAttribute('aria-describedby', p.id); }
+      wrap.classList.toggle('has-err', !!msg);
+    };
+
+    const validate = () => {
+      let first: HTMLElement | null = null;
+      form.querySelectorAll<HTMLInputElement>('[data-field] input, [data-field] select, [data-field] textarea').forEach((el) => {
+        const name = el.name;
+        let msg = '';
+        if (el.type === 'checkbox') { if (el.required && !el.checked) msg = MSG.datenschutz; }
+        else if (el.required && !el.value.trim()) msg = MSG.required;
+        else if (el.type === 'email' && el.value.trim() && !EMAIL.test(el.value.trim())) msg = MSG.email;
+        setErr(name, msg);
+        if (msg && !first) first = el;
+      });
+      if (first) (first as HTMLElement).focus();
+      return !first;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      status.hidden = true;
+      if (!validate()) return;
+      submit.disabled = true;
+      submit.setAttribute('aria-busy', 'true');
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) { window.location.href = data.redirect || '/danke'; return; }
+        if (data.errors) { Object.entries(data.errors as Record<string, string>).forEach(([k, v]) => setErr(k, v)); }
+        status.innerHTML = data.errors ? `Bitte prüfe die markierten Felder. Bei Problemen erreichst du uns telefonisch: ${phone}.` : fail;
+        status.hidden = false;
+      } catch {
+        status.innerHTML = `Leider hat das Absenden nicht geklappt. Bitte prüfe deine Internetverbindung und versuche es noch einmal – oder ruf uns an: ${phone}.`;
+        status.hidden = false;
+      } finally {
+        submit.disabled = false;
+        submit.removeAttribute('aria-busy');
+      }
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input,select,textarea').forEach((el) =>
+      el.addEventListener('input', () => { const w = el.closest('[data-field]') as HTMLElement | null; if (w?.classList.contains('has-err')) setErr(el.name, ''); }),
+    );
+    form.querySelectorAll<HTMLSelectElement>('select').forEach((s) => {
+      const upd = () => s.classList.toggle('is-empty', !s.value);
+      upd(); s.addEventListener('change', upd);
+    });
+  });
+</script>
+
+<style>
+  .frm { padding: calc(var(--pt) / 2) 0 calc(var(--pb) / 2); }
+  @media (min-width: 768px) { .frm { padding: var(--pt) 0 var(--pb); } }
+  .frm__col { margin-inline: auto; text-align: center; }
+  @media (min-width: 768px) { .frm__col { width: 65.84%; } }
+  .frm__pill { font-size: 16px; line-height: 20px; padding: 8px 12px; text-transform: uppercase; margin-bottom: 20px; }
+  .frm__title { margin-bottom: 10px; }
+  .frm__text { margin-bottom: 30px; }
+  @media (min-width: 768px) { .frm__text { padding-inline: 2.2%; } }
+
+  .frm__form { text-align: left; padding-bottom: 20px; }
+  .fld { margin-bottom: 17px; }
+  .inp {
+    width: 100%; display: block; font: 400 18px/24px var(--font-text); color: #000; background: #fff;
+    border: 1px solid rgba(255, 255, 255, .1); border-radius: 4px; padding: 19px; min-height: 64px;
+    -webkit-appearance: none; appearance: none;
+  }
+  .inp::placeholder { color: rgba(0, 0, 0, .3); opacity: 1; }
+  .inp:focus { outline: 3px solid var(--cream); outline-offset: 2px; }
+  .inp--area { min-height: 88px; height: 88px; resize: vertical; }
+  .ico { position: relative; }
+  .ico--on .inp { padding-left: 64px; }
+  .ico :global(.ico__svg) { position: absolute; left: 22px; top: 50%; transform: translateY(-50%); color: var(--text); pointer-events: none; }
+  .sel { position: relative; }
+  .inp--sel { padding-right: 52px; cursor: pointer; }
+  .inp--sel:global(.is-empty) { color: rgba(0, 0, 0, .3); }
+  .inp--sel option { color: #000; }
+  .sel :global(.sel__chev) { position: absolute; right: 19px; top: 50%; transform: translateY(-50%); color: rgba(0, 0, 0, .3); pointer-events: none; }
+
+  .frm__submit { margin-bottom: 17px; }
+  .frm__submit[disabled] { opacity: .7; cursor: progress; }
+  .frm__submit .btn__sub { margin-top: -6px; }
+
+  .chk { position: relative; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 18px; line-height: 24px; color: #fff; }
+  .chk input { position: absolute; opacity: 0; width: 18px; height: 18px; margin: 0; left: 0; top: 3px; }
+  .chk__box { flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 3px; background: #fff; border: 1px solid rgba(255,255,255,.4); position: relative; }
+  .chk input:checked + .chk__box::after {
+    content: ''; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px;
+    border: solid var(--blue); border-width: 0 2px 2px 0; transform: rotate(45deg);
+  }
+  .chk input:focus-visible + .chk__box { outline: 3px solid var(--cream); outline-offset: 2px; }
+  .chk__label a { color: #fff; }
+
+  .fld__err { margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--cream); font-weight: 600; }
+  .fld.has-err .inp { border-color: var(--cream); box-shadow: 0 0 0 2px var(--cream); }
+  .frm__status { margin-top: 8px; padding: 14px 16px; border-radius: 4px; background: #fff; color: #9b1c1c; font-size: 16px; font-weight: 600; }
+  .frm__status :global(a) { color: inherit; }
+  .frm__note { font-size: 16px; line-height: 24px; text-align: center; margin-top: 0; }
+
+  .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+</style>

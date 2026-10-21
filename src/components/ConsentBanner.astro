@@ -1,0 +1,80 @@
+---
+/**
+ * Kleiner Einwilligungs-Banner – nur für das Trustindex-Bewertungswidget.
+ * Erscheint nur auf Seiten, die ein Element mit [data-consent="trustindex"] enthalten.
+ * Die Entscheidung wird im Browser gespeichert (localStorage "consent-trustindex").
+ */
+---
+<div class="cb" id="consent-banner" role="dialog" aria-live="polite" aria-labelledby="cb-title" hidden>
+  <p class="cb__title" id="cb-title">Externe Inhalte</p>
+  <p class="cb__text">
+    Auf dieser Seite zeigen wir Google-Bewertungen über den Dienst Trustindex an. Dabei wird eine Verbindung zu Trustindex
+    hergestellt und deine IP-Adresse übertragen. Mehr dazu in unserer <a href="/datenschutz">Datenschutzerklärung</a>.
+  </p>
+  <div class="cb__btns">
+    <button type="button" class="btn btn--m" data-consent-accept>Akzeptieren</button>
+    <button type="button" class="btn btn--m cb__deny" data-consent-deny>Ablehnen</button>
+  </div>
+</div>
+<button type="button" class="cb-reopen" id="consent-reopen" aria-label="Einstellungen für externe Inhalte" hidden>
+  <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+</button>
+
+<script>
+  const KEY = 'consent-trustindex';
+  const banner = document.getElementById('consent-banner');
+  const reopen = document.getElementById('consent-reopen');
+  const targets = document.querySelectorAll<HTMLElement>('[data-consent="trustindex"]');
+
+  const read = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+  const write = (v: string) => { try { localStorage.setItem(KEY, v); } catch { /* privat-Modus */ } };
+
+  const load = () => {
+    targets.forEach((el) => {
+      if (el.dataset.loaded) return;
+      el.dataset.loaded = '1';
+      el.querySelector('.reviews__placeholder')?.remove();
+      const s = document.createElement('script');
+      s.src = el.dataset.src!;
+      s.defer = true;
+      s.async = true;
+      el.appendChild(s);
+    });
+  };
+
+  if (targets.length && banner && reopen) {
+    const state = read();
+    if (state === 'yes') load();
+    else if (state === null) banner.hidden = false;
+    reopen.hidden = false;
+
+    banner.querySelector('[data-consent-accept]')?.addEventListener('click', () => { write('yes'); banner.hidden = true; load(); });
+    banner.querySelector('[data-consent-deny]')?.addEventListener('click', () => { write('no'); banner.hidden = true; });
+    reopen.addEventListener('click', () => { banner.hidden = false; banner.querySelector<HTMLElement>('[data-consent-accept]')?.focus(); });
+    document.querySelectorAll('[data-consent-open]').forEach((b) => b.addEventListener('click', () => { write('yes'); banner.hidden = true; load(); }));
+  }
+</script>
+
+<style>
+  .cb {
+    position: fixed; z-index: 9000; left: 50%; bottom: 16px; transform: translateX(-50%);
+    width: min(760px, calc(100% - 16px)); background: #fff; color: var(--text); border-radius: 8px;
+    padding: 20px; box-shadow: rgba(17, 17, 26, .1) 0 16px 32px 0, rgba(17, 17, 26, .15) 0 4px 60px 0;
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: center;
+  }
+  .cb[hidden] { display: none; }
+  .cb__title { grid-column: 1; font-weight: 600; font-size: 16px; }
+  .cb__text { grid-column: 1; font-size: 13px; line-height: 1.5; color: rgba(52, 52, 52, .8); }
+  .cb__btns { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; gap: 8px; min-width: 150px; }
+  .cb__btns .btn { min-height: 44px; font-size: 14px; padding: 6px 16px; }
+  .cb__deny { background: var(--grey); color: var(--text); }
+  @media (max-width: 600px) {
+    .cb { grid-template-columns: 1fr; left: 8px; right: 8px; width: auto; transform: none; bottom: 8px; }
+    .cb__btns { grid-column: 1; grid-row: auto; }
+  }
+  .cb-reopen {
+    position: fixed; z-index: 8999; right: 16px; bottom: 16px; width: 44px; height: 44px; border-radius: 100px; border: 0;
+    background: rgba(52, 52, 52, .75); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+  .cb-reopen[hidden] { display: none; }
+</style>

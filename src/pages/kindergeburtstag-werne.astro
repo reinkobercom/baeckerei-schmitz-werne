@@ -1,0 +1,81 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { images } from '../data/images';
+import { sections } from '../data/sections';
+
+const s = sections.kindergeburtstag;
+const img = images.backstubeKinderBacken;
+---
+<Base
+  title="Kindergeburtstag Werne"
+  description="Kindergeburtstag in der Backstube der Bäckerei Schmitz in Werne: Brot backen, Plätzchen verzieren, Pizza belegen – 3 Stunden Backabenteuer für bis zu 12 Kinder. Jetzt anfragen."
+>
+  {s.hero && (
+    <Hero image="backstubeKinderBacken" title="Kindergeburtstag in unserer Backstube in Werne." text="Einzigartiges Backabenteuer für kleine Bäckermeisterinnen & Bäckermeister" pad={120} titleSize="lg" textSize="l" textGap={30} />
+  )}
+
+  {s.angebot && (
+    <section class="offer" aria-label="Unser Angebot">
+      <div class="offer__box">
+        <div class="offer__a">
+          <p class="offer__pill"><b>Ab sofort wieder verfügbar</b></p>
+          <p class="p-l offer__mb20">Genießt eine Auswahl an Getränken, köstlichen Berlinern, Quarkbällchen und weiteren Leckereien, serviert an einem festlich gedeckten Partytisch in unserer gemütlichen Backstube. Jedes Kind erhält die Chance, sein eigenes Brot zu backen und kreativ gestaltete Plätzchen zu verzieren. Gemeinsam tauchen wir in die Welt des Backens ein, indem wir eine große Figur aus Quarkteig formen und diese fantasievoll dekorieren. Den krönenden Abschluss bildet das Zubereiten einer individuellen Pizza für jedes Kind. Selbstverständlich dürfen alle selbstgebackenen Köstlichkeiten mit nach Hause genommen werden, um die Erinnerung an einen unvergesslichen Tag zu bewahren.</p>
+          <div class="p-l offer__prices">
+            <p><b><u>Auf einen Blick - Montag-Freitag:</u></b><br /><b>Zeit:</b> 3 Stunden, flexible Anfangszeit von 14:30-16:00 Uhr<br /><b>Anzahl: </b>Maximal 12 Kinder<br /><b>Preis:</b> 8 Kinder 260€ + jedes weitere Kind 15€</p>
+            <p><b><u>Auf einen Blick - Samstag:</u></b><br /><b>Zeit:</b> 3 Stunden, 10:30-13:30 Uhr <i>oder</i> 15:00-18:00 Uhr<br /><b>Anzahl:</b> Maximal 12 Kinder<br /><b>Preis:</b> 8 Kinder 290€ + jedes weitere Kind 15€</p>
+          </div>
+          <a class="btn btn--m btn--blink offer__btn" href="#anfrage"><span class="btn__label">Jetzt hier anfragen</span></a>
+        </div>
+        <div class="offer__b">
+          <div class="offer__imgwrap">
+            <Image src={img.src} alt={img.alt} widths={[400, 700, 1000]} sizes="(min-width: 768px) 32vw, 92vw" class="offer__img" />
+          </div>
+          <p class="p-m"><i>Wir würden uns freuen, mit euch zu feiern!</i></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {s.formular && (
+    <InquiryForm
+      form="kindergeburtstag"
+      id="anfrage"
+      label="Bei uns in der backstube - nur für kinder"
+      title="Jetzt hier online anfragen!"
+      text="Bitte Daten vollständig angeben. Wir setzen uns anschließend zwecks weiterer Absprachen mit dir in Verbindung."
+      note="Hinweis: Dies ist keine verbindliche Buchung - bitte auf unsere Rückmeldung per Telefon oder E-Mail warten!"
+      pad={[60, 80]}
+    />
+  )}
+
+  {s.galerie && (
+    <Gallery rows={[
+      [['backstubeKinderBacken', 535], ['standortBakerBoys', 441], ['bakerBoysSchaufenster', 465]],
+      [['heroBroetchenRegal', 490], ['verkaufswagen', 286], ['standortBackstubeLive', 490], ['lebkuchenhaus', 175]],
+    ]} />
+  )}
+</Base>
+
+<style>
+  .offer { padding: 40px 0; }
+  @media (min-width: 768px) { .offer { padding: 80px 0; } }
+  .offer__box { width: calc(100% - 48px); margin-inline: auto; background: #fff; border-radius: 8px; padding: 0; display: flex; flex-direction: column; gap: 32px; }
+  @media (min-width: 768px) {
+    .offer__box { width: min(1400px, calc(100% - 64px)); padding: 56px; flex-direction: row; align-items: flex-start; gap: 0; }
+    .offer__a { margin-left: 2.22%; width: 50.63%; align-self: center; }
+    .offer__b { margin-left: 10.28%; width: 34.73%; }
+  }
+  .offer__pill { display: inline-block; background: var(--cream); border-radius: 100px; padding: 6px 12px; font-size: 14px; line-height: 20px; margin-bottom: 20px; }
+  .offer__mb20 { margin-bottom: 20px; }
+  .offer__prices { margin-bottom: 30px; }
+  .offer__prices p + p { margin-top: 16px; }
+  .offer__btn { width: 60%; }
+  @media (max-width: 767px) { .offer__btn { width: 100%; } }
+  .offer__imgwrap { border-radius: 8px; overflow: hidden; box-shadow: var(--shadow-card); margin-bottom: 13px; }
+  .offer__imgwrap :global(.offer__img) { width: 100%; aspect-ratio: 439 / 307; object-fit: cover; transition: transform .5s; }
+  .offer__imgwrap:hover :global(.offer__img) { transform: scale(1.05); }
+</style>

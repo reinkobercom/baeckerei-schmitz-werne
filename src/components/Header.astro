@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import { images } from '../data/images';
+import { nav, navOverflowFrom, social } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href);
+const main = nav.slice(0, navOverflowFrom);
+const more = nav.slice(navOverflowFrom);
+const logo = images.logoSchmitz;
+---
+<header class="hdr">
+  <div class="container hdr__inner">
+    <a href="/" class="hdr__logo" aria-label="Bäckerei Schmitz – zur Startseite">
+      <Image src={logo.src} alt={logo.alt} width={178} height={89} widths={[178, 356]} sizes="178px" loading="eager" fetchpriority="high" />
+    </a>
+
+    <nav class="hdr__nav" aria-label="Hauptnavigation">
+      <ul class="menu">
+        {main.map((item) => (
+          <li><a class:list={['menu__link', { 'is-active': isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}><span class="menu__title">{item.label}</span></a></li>
+        ))}
+        {more.length > 0 && (
+          <li class="more">
+            <button class="menu__link more__btn" type="button" aria-expanded="false" aria-controls="more-menu" aria-label="Weitere Seiten">
+              <Icon name="dots" size={21} />
+            </button>
+            <ul class="more__list" id="more-menu">
+              {more.map((item) => (
+                <li><a class:list={['menu__link', { 'is-active': isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}><span class="menu__title">{item.label}</span></a></li>
+              ))}
+            </ul>
+          </li>
+        )}
+      </ul>
+      <ul class="soc">
+        <li><a class="soc__link soc--fb" href={social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" /></a></li>
+        <li><a class="soc__link soc--ig" href={social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" /></a></li>
+        <li><a class="soc__link soc--wa" href={social.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" /></a></li>
+      </ul>
+    </nav>
+
+    <button class="burger" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen">
+      <Icon name="burger" size={24} />
+    </button>
+  </div>
+
+  <div class="mm" id="mobile-menu" hidden>
+    <div class="mm__backdrop" data-close></div>
+    <div class="mm__panel" role="dialog" aria-modal="true" aria-label="Menü">
+      <div class="mm__head">
+        <Image src={logo.src} alt="" width={178} height={89} widths={[178, 356]} sizes="178px" loading="lazy" />
+        <button class="mm__close" type="button" data-close aria-label="Menü schließen"><Icon name="close" size={20} /></button>
+      </div>
+      <ul class="mm__list">
+        {nav.map((item) => (
+          <li><a class:list={['menu__link', { 'is-active': isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}><span class="menu__title">{item.label}</span></a></li>
+        ))}
+      </ul>
+      <ul class="soc mm__soc">
+        <li><a class="soc__link soc--fb" href={social.facebook} target="_blank" rel="noopener" aria-label="Facebook"><Icon name="facebook" /></a></li>
+        <li><a class="soc__link soc--ig" href={social.instagram} target="_blank" rel="noopener" aria-label="Instagram"><Icon name="instagram" /></a></li>
+        <li><a class="soc__link soc--wa" href={social.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp"><Icon name="whatsapp" /></a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const moreBtn = document.querySelector<HTMLButtonElement>('.more__btn');
+  const more = document.querySelector('.more');
+  moreBtn?.addEventListener('click', () => {
+    const open = moreBtn.getAttribute('aria-expanded') === 'true';
+    moreBtn.setAttribute('aria-expanded', String(!open));
+    more?.classList.toggle('is-open', !open);
+  });
+  document.addEventListener('click', (e) => {
+    if (more && !more.contains(e.target as Node)) { more.classList.remove('is-open'); moreBtn?.setAttribute('aria-expanded', 'false'); }
+  });
+
+  const burger = document.querySelector<HTMLButtonElement>('.burger');
+  const mm = document.getElementById('mobile-menu');
+  const setMenu = (open: boolean) => {
+    if (!mm || !burger) return;
+    if (open) { mm.hidden = false; requestAnimationFrame(() => mm.classList.add('is-open')); mm.querySelector<HTMLElement>('.mm__close')?.focus(); }
+    else { mm.classList.remove('is-open'); setTimeout(() => { mm.hidden = true; }, 300); burger.focus(); }
+    burger.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+  };
+  burger?.addEventListener('click', () => setMenu(true));
+  mm?.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (mm && !mm.hidden) setMenu(false);
+    if (more?.classList.contains('is-open')) { more.classList.remove('is-open'); moreBtn?.setAttribute('aria-expanded', 'false'); moreBtn?.focus(); }
+  });
+</script>
+
+<style>
+  .hdr { background: #fff; position: relative; z-index: 50; }
+  .hdr__inner { display: flex; align-items: center; justify-content: space-between; min-height: 137px; padding: 24px 0; }
+  .hdr__logo { display: block; flex: none; }
+  .hdr__logo :global(img) { width: 178px; height: 89px; object-fit: cover; }
+
+  .hdr__nav { display: none; align-items: center; gap: 27px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  .menu { display: flex; align-items: center; }
+  .menu__link {
+    display: flex; align-items: center; padding: 14.4px 12px; min-height: 44px;
+    text-decoration: none; color: var(--text); background: none; border: 0; cursor: pointer;
+    font-family: var(--font-head); font-weight: 700; font-size: 16.8px; line-height: 20.16px;
+  }
+  .menu__title { position: relative; display: block; }
+  .menu__title::before {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; background: var(--blue);
+    transform: scaleX(0); transition: transform .3s;
+  }
+  .menu__link:hover .menu__title::before, .menu__link.is-active .menu__title::before { transform: scaleX(1); }
+  .more { position: relative; }
+  .more__btn { padding: 14px 12px; }
+  .more__list {
+    position: absolute; right: -60px; top: calc(100% + 20px); min-width: 169px; padding: 8px; background: #fff; border-radius: 4px;
+    box-shadow: var(--shadow-card); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .25s, transform .25s, visibility .25s;
+  }
+  .more.is-open .more__list, .more:focus-within .more__list, .more:hover .more__list { opacity: 1; visibility: visible; transform: none; }
+  .more::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 20px; }
+  .more__list .menu__link { white-space: nowrap; padding: 12px; }
+
+  .soc { display: flex; gap: 16px; }
+  .soc__link { display: flex; align-items: center; justify-content: center; width: 29px; height: 44px; }
+  .soc--fb { color: var(--fb); }
+  .soc--ig { color: #e0447d; }
+  .soc--wa { color: var(--wa); }
+
+  .burger {
+    width: 56px; height: 56px; border: 0; border-radius: 4px; background: var(--grey); color: var(--text);
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
+
+  @media (min-width: 1024px) {
+    .hdr__nav { display: flex; }
+    .burger { display: none; }
+  }
+
+  /* Mobiles Menü */
+  .mm { position: fixed; inset: 0; z-index: 10000; }
+  .mm__backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .23); opacity: 0; transition: opacity .3s; }
+  .mm__panel {
+    position: absolute; top: 16px; left: 16px; right: 16px; max-height: calc(100% - 32px); overflow: auto;
+    background: #fff; border-radius: 8px; padding: 24px 24px 24px;
+    box-shadow: rgba(17, 17, 26, .1) 0 16px 32px 0, rgba(17, 17, 26, .1) 0 95px 140px 0;
+    transform: translateY(-20px); opacity: 0; transition: transform .6s cubic-bezier(0, .89, .1, 1), opacity .3s;
+  }
+  .mm.is-open .mm__backdrop { opacity: 1; }
+  .mm.is-open .mm__panel { transform: none; opacity: 1; }
+  .mm__head { position: relative; height: 113px; }
+  .mm__head :global(img) { width: 178px; height: 89px; object-fit: cover; }
+  .mm__close { position: absolute; right: -12px; top: 22px; width: 44px; height: 44px; border: 0; background: none; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .mm__list { margin: 0 -12px; }
+  .mm__list .menu__link { padding: 12px; }
+  .mm__soc { margin-top: 8px; margin-left: -6px; }
+</style>

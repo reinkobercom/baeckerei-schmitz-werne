@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Danke für die Anfrage" description="Vielen Dank für deine Anfrage bei der Bäckerei Schmitz in Werne – wir melden uns persönlich bei dir." chrome={false}>
+  <section class="thx">
+    <div class="container thx__col">
+      <span class="thx__icon"><Icon name="verified" size={45} /></span>
+      <h1 class="t-head t-md thx__title">Vielen Dank für die Anfrage.</h1>
+      <p class="p-l thx__text">Wir melden uns persönlich bei dir.</p>
+      <a class="btn btn--l thx__btn" href="/"><span class="btn__label">Zurück zur Website</span></a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thx { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 70px 0; text-align: center; }
+  @media (min-width: 768px) { .thx { padding: 140px 0; } }
+  .thx__col { display: flex; flex-direction: column; align-items: center; }
+  @media (min-width: 768px) { .thx__col { max-width: 49.36%; } }
+  .thx__icon { width: 96px; height: 96px; border-radius: 100px; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .thx__title { margin-bottom: 0; }
+  .thx__text { margin-bottom: 40px; }
+  .thx__btn { width: 45%; min-width: 240px; }
+</style>

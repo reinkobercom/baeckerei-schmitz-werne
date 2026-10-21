@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import { datenschutz } from '../data/datenschutz';
+---
+<Base title="Datenschutz" description="Datenschutzerklärung der Bäckerei Schmitz in Werne: Informationen zur Verarbeitung personenbezogener Daten auf dieser Website.">
+  <section class="ds sec--blue on-dark">
+    <div class="container ds__col">
+      <h1 class="t-head t-lg ds__title">Datenschutz</h1>
+      <div class="p-m ds__text">
+        {datenschutz.map((b) =>
+          b[0] === '' ? <p class="ds__blank" aria-hidden="true">&nbsp;</p>
+          : b[0] === 'h2' ? <h2>{b[1]}</h2>
+          : b[0] === 'h3' ? <h3>{b[1]}</h3>
+          : <p>{b[1]}</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ds { padding: 50px 0; }
+  @media (min-width: 768px) { .ds { padding: 100px 0; } .ds__col { max-width: 70.8%; } }
+  @media (min-width: 1400px) { .ds__col { max-width: 885px; } }
+  .ds__title { margin-bottom: 10px; }
+  .ds__text { overflow-wrap: anywhere; }
+  .ds__text :is(p, h2, h3) { font: inherit; margin: 0; }
+  .ds__text > * + * { margin-top: 16px; }
+  .ds__blank { line-height: 1.5; }
+</style>

@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Impressum" description="Impressum der Bäckerei Schmitz, Inhaberin Barbara Schmitz, Stockumer Str. 27, 59368 Werne – Kontakt per Telefon und E-Mail.">
+  <section class="legal-head sec--blue on-dark">
+    <div class="container legal-head__row">
+      <h1 class="t-head t-lg legal-head__title">Impressum</h1>
+      <div class="p-l legal-head__text">
+        <p><b>Bäckerei Schmitz</b><br />Inhaberin: {site.owner}<br />{site.address.street}<br />{site.address.zip} {site.address.city}</p>
+        <p>Steuernummer: {site.taxNumber}<br />Telefon: <a href={`tel:${site.phone.tel}`}>{site.phone.label}</a><br />E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal-head { padding: 50px 0; }
+  @media (min-width: 768px) { .legal-head { padding: 100px 0; } }
+  .legal-head__row { display: flex; flex-direction: column; gap: 24px; }
+  @media (min-width: 768px) {
+    .legal-head__row { flex-direction: row; align-items: flex-start; }
+    .legal-head__title { margin-left: 15%; width: 31.6%; flex: none; margin-bottom: 30px; }
+    .legal-head__text { margin-left: 2.56%; width: 35.92%; flex: none; align-self: center; }
+  }
+  .legal-head__text p + p { margin-top: 16px; }
+  .legal-head__text a { text-decoration: none; }
+  .legal-head__text a:hover { text-decoration: underline; }
+</style>

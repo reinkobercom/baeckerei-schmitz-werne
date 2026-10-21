@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageKey } from '../data/images';
+import { images } from '../data/images';
+
+interface Props {
+  image: ImageKey;
+  title: string;
+  text: string;
+  /** Innenabstand oben/unten am Desktop in px (mobil die Hälfte) */
+  pad?: number;
+  titleSize?: 'xl' | 'lg';
+  textSize?: 'xl' | 'l';
+  textGap?: number;
+  button?: { text: string; href: string };
+}
+const { image, title, text, pad = 120, titleSize = 'xl', textSize = 'xl', textGap = 40, button } = Astro.props;
+const img = images[image];
+---
+<section class="hero" style={`--pad:${pad}px;--tgap:${textGap}px`}>
+  <div class="hero__bg">
+    <Image src={img.src} alt="" widths={[640, 1024, 1440, 1920, 2400]} sizes="100vw" loading="eager" fetchpriority="high" />
+  </div>
+  <div class="container hero__inner">
+    <div class="hero__col">
+      <h1 class:list={['t-head', titleSize === 'xl' ? 't-xl' : 't-lg', 'hero__title']}>{title}</h1>
+      <p class:list={[textSize === 'xl' ? 'p-xl' : 'p-l', 'hero__text']}>{text}</p>
+      {button && (
+        <a class="btn btn--l hero__btn" href={button.href}><span class="btn__label">{button.text}</span></a>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero__inner { padding: calc(var(--pad) / 2) 0; }
+  @media (min-width: 768px) { .hero__inner { padding: var(--pad) 0; } }
+  .hero__col { width: 100%; }
+  @media (min-width: 768px) { .hero__col { width: 47.76%; } }
+  .hero__title { margin-bottom: 10px; }
+  .hero__text { margin-bottom: var(--tgap); }
+  .hero__btn { width: 60%; }
+  .hero__text:last-child { margin-bottom: var(--tgap); }
+</style>
