@@ -20,8 +20,7 @@ import { datenschutz } from '../data/datenschutz';
 
 <style>
   .ds { padding: 50px 0; }
-  @media (min-width: 768px) { .ds { padding: 100px 0; } .ds__col { max-width: 70.8%; } }
-  @media (min-width: 1400px) { .ds__col { max-width: 885px; } }
+  @media (min-width: 768px) { .ds { padding: 100px 0; } .ds__col { width: calc(var(--container) * 0.708); } }
   .ds__title { margin-bottom: 10px; }
   .ds__text { overflow-wrap: anywhere; }
   .ds__text :is(p, h2, h3) { font: inherit; margin: 0; }

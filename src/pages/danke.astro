@@ -17,7 +17,7 @@ import Icon from '../components/Icon.astro';
   .thx { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding: 70px 0; text-align: center; }
   @media (min-width: 768px) { .thx { padding: 140px 0; } }
   .thx__col { display: flex; flex-direction: column; align-items: center; }
-  @media (min-width: 768px) { .thx__col { max-width: 49.36%; } }
+  @media (min-width: 768px) { .thx__col { width: calc(var(--container) * 0.4936); } }
   .thx__icon { width: 96px; height: 96px; border-radius: 100px; background: var(--blue); color: #fff; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
   .thx__title { margin-bottom: 0; }
   .thx__text { margin-bottom: 40px; }

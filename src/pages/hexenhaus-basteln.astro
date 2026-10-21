@@ -81,7 +81,7 @@ const termine = hexenhausTermine.filter((t) => isVisible(t));
 
 <style>
   .intro { padding: 35px 0 15px; text-align: center; }
-  @media (min-width: 768px) { .intro { padding: 70px 0 30px; } .intro__col { max-width: 87.36%; } }
+  @media (min-width: 768px) { .intro { padding: 70px 0 30px; } .intro__col { width: calc(var(--container) * 0.8736); } }
   .intro h2 { margin-bottom: 20px; }
   .intro p { margin-bottom: 30px; }
 
@@ -95,7 +95,7 @@ const termine = hexenhausTermine.filter((t) => isVisible(t));
   .termin p { margin-bottom: 20px; }
 
   .cta { padding: 30px 0 50px; text-align: center; }
-  @media (min-width: 768px) { .cta { padding: 60px 0 100px; } .cta__col { max-width: 74.72%; } }
+  @media (min-width: 768px) { .cta { padding: 60px 0 100px; } .cta__col { width: calc(var(--container) * 0.7472); } }
   .cta h2 { margin-bottom: 20px; }
   .cta__text { color: rgba(255, 255, 255, .51); margin-bottom: 10px; }
   .cta .btn { margin-bottom: 20px; }
