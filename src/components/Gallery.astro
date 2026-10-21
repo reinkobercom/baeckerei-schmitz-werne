@@ -33,8 +33,9 @@ const { rows } = Astro.props;
   @media (min-width: 460px) { .gal { --rh: 256px; } }
   .gal__row { display: flex; flex-direction: column; }
   .gal__item { padding: 4px; height: var(--rh); }
-  .gal__box { height: 100%; overflow: hidden; }
-  .gal__box :global(img) { width: 100%; height: 256px; object-fit: cover; max-width: none; }
+  .gal__box { height: 100%; overflow: hidden; border-radius: 6px; }
+  .gal__box :global(img) { width: 100%; height: 256px; object-fit: cover; max-width: none; transition: transform .8s var(--ease); }
+  .gal__item:hover :global(img) { transform: scale(1.04); }
   @media (min-width: 768px) {
     .gal__row { flex-direction: row; }
     .gal__item { flex: var(--w) 1 0; min-width: 0; }

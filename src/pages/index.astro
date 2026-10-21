@@ -47,7 +47,7 @@ const s = sections.home;
   {s.standorte && <LocationCards items={locations} id="standorte" />}
 
   {s.backstubeHautnah && (
-    <Split cols={[27, 651, 57, 488]} pad={[70, 120]} class="hautnah" label="Backstube hautnah">
+    <Split cols={[27, 651, 57, 488]} pad={[96, 96]} class="hautnah" label="Backstube hautnah">
       <Image slot="a" src={images.backstubeKinderBacken.src} alt={images.backstubeKinderBacken.alt} widths={[400, 700, 1000, 1400]} sizes="(min-width: 768px) 52vw, 92vw" class="img-r4 hautnah__img" />
       <div slot="b">
         <p class="p-l h-mb20">Firmenevents, Kindergeburtstage &amp; Hexenhäuschen basteln bei uns in der Backstube.</p>
@@ -65,7 +65,7 @@ const s = sections.home;
   )}
 
   {s.bestellkarte && (
-    <Split cols={[0, 579, 93, 578]} pad={[100, 70]} class="bestell" label="Unsere Bestellkarte">
+    <Split cols={[0, 579, 93, 578]} pad={[96, 96]} class="bestell" label="Unsere Bestellkarte">
       <div slot="a">
         <h2 class="t-head t-lg h-mb20">Unsere Bestellkarte</h2>
         <p class="p-l h-mb30">„Mit der Bestellkarte können wir bequem aus dem Betrieb heraus leckere Brötchen und mehr für den nächsten Tag bestellen. Zudem wird alles pünktlich und frisch geliefert.“</p>
@@ -76,7 +76,7 @@ const s = sections.home;
   )}
 
   {s.bastelSets && (
-    <Split cols={[29, 451, 119, 622]} pad={[60, 50]} class="sets" label="Unsere Hexenhäuser Bastel-Sets">
+    <Split cols={[29, 451, 119, 622]} pad={[96, 96]} class="sets" label="Unsere Hexenhäuser Bastel-Sets">
       <Image slot="a" src={images.lebkuchenhaus.src} alt={images.lebkuchenhaus.alt} widths={[400, 700, 1000]} sizes="(min-width: 768px) 36vw, 92vw" class="img-r4 sets__img" />
       <div slot="b">
         <h2 class="t-head t-lg h-mb20 sets__title">Unsere Hexenhäuser Bastel-Sets</h2>
@@ -107,12 +107,12 @@ const s = sections.home;
   .h-mb15 { margin-bottom: 15px; }
   .h-mb20 { margin-bottom: 20px; }
   .h-mb30 { margin-bottom: 30px; }
-  :global(.img-r4) { border-radius: 4px; }
+  :global(.img-r4) { border-radius: var(--radius-lg); box-shadow: var(--shadow-card); }
 
   :global(.hautnah__img) { width: 100%; aspect-ratio: 651 / 417; object-fit: cover; margin-bottom: 10px; }
 
   :global(.bestell .split__b) { align-self: stretch; }
-  :global(.bestell__img) { width: 100%; aspect-ratio: 579 / 538; object-fit: cover; border-radius: 8px; box-shadow: rgba(0, 0, 0, .1) 0 69px 245px 0; margin-bottom: 20px; }
+  :global(.bestell__img) { width: 100%; aspect-ratio: 579 / 538; object-fit: cover; border-radius: var(--radius-lg); box-shadow: rgba(0, 0, 0, .1) 0 40px 120px 0; margin-bottom: 20px; }
   @media (max-width: 767px) { :global(.bestell__img) { aspect-ratio: 342 / 318; } }
 
   :global(.sets__img) { width: 100%; aspect-ratio: 451 / 518; object-fit: cover; margin-bottom: 10px; }
@@ -125,11 +125,12 @@ const s = sections.home;
   :global(.feiertage__img) { width: 100%; border-radius: 4px; }
   .feiertage__txt { color: rgba(0, 0, 0, .5); display: grid; gap: 20px; }
 
-  .retten { padding: 60px 0 50px; text-align: center; }
-  @media (min-width: 768px) { .retten { padding: 120px 0 100px; } }
+  .retten { padding: 48px 0 40px; text-align: center; background: var(--cream-light); }
+  @media (min-width: 768px) { .retten { padding: 96px 0 76px; } }
   @media (min-width: 768px) { .retten__col { width: calc(var(--container) * 0.6624); } }
   .retten__title { max-width: 644px; margin: 0 auto 20px; }
   .retten__text { margin-bottom: 40px; }
   .retten__logos { list-style: none; margin: 0 0 20px; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; }
-  .retten__logos :global(img) { width: 100%; aspect-ratio: 392 / 78; object-fit: contain; }
+  .retten__logos :global(img) { width: 100%; aspect-ratio: 392 / 78; object-fit: contain; filter: saturate(.9); opacity: .92; transition: opacity .3s, filter .3s; }
+  .retten__logos :global(img:hover) { opacity: 1; filter: none; }
 </style>

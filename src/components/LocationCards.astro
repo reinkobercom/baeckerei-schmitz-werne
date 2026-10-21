@@ -37,14 +37,17 @@ const { items, id } = Astro.props;
   @media (min-width: 768px) { .loc { padding-top: 49px; } }
   .loc__grid { display: grid; gap: 24px; padding: 12px; }
   @media (min-width: 768px) { .loc__grid { grid-template-columns: 1fr 1fr; } }
-  .loc__card { background: #fff; border-radius: 4px; box-shadow: var(--shadow-card); overflow: hidden; }
-  .loc__card :global(.loc__img) { width: 100%; aspect-ratio: 601 / 415; object-fit: cover; border-radius: 4px 4px 0 0; }
+  .loc__card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .loc__card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+  .loc__card :global(.loc__img) { width: 100%; aspect-ratio: 601 / 415; object-fit: cover; border-radius: 0; transition: transform .6s var(--ease); }
+  .loc__card:hover :global(.loc__img) { transform: scale(1.03); }
   .loc__body { padding: 20px 24px 24px; }
   @media (min-width: 768px) { .loc__body { padding: 20px 16px 16px; } }
   .loc__body > * { margin-bottom: 20px; }
   .loc__body > *:last-child { margin-bottom: 20px; }
   .loc__body h3 { margin-bottom: 10px; }
   .loc__phone { margin-bottom: 10px !important; }
-  .loc__body a { text-decoration: none; }
+  .loc__body a { text-decoration: none; color: var(--blue); font-weight: 600; }
+  .loc__hours b { color: var(--blue); }
   .loc__body a:hover { text-decoration: underline; }
 </style>

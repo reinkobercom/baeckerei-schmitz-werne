@@ -76,12 +76,14 @@ const sets: { title: string; image: ImageKey; intro: string; list: string; total
   @media (min-width: 768px) { .sets { padding: 49px 0 70px; } }
   .sets__grid { display: grid; gap: 24px; padding: 12px; }
   @media (min-width: 768px) { .sets__grid { grid-template-columns: repeat(3, 1fr); align-items: start; } }
-  .card { background: #fff; border-radius: 4px; box-shadow: var(--shadow-card); overflow: hidden; }
+  .card { background: #fff; border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+  .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
   .card :global(.card__img) { width: 100%; aspect-ratio: 393 / 471; object-fit: cover; }
   .card__body { padding: 20px 16px 36px; }
   @media (max-width: 767px) { .card__body { padding: 20px 24px 44px; } }
   .card__title { margin-bottom: 10px; }
   .card__txt { margin-bottom: 20px; }
   .card__txt p + p { margin-top: 16px; }
+  .card__txt b { color: var(--blue); }
   .card__btn { margin-bottom: 20px; }
 </style>

@@ -30,15 +30,16 @@ const logo = images.logoSchmitz;
 </script>
 
 <style>
-  .ftr { background: #fff; padding: 71px 0 58px; }
+  .ftr { background: #fff; border-top: 1px solid rgba(17, 17, 26, .06); padding: 71px 0 58px; }
   .ftr__inner { display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 775px; }
   .ftr__logo :global(img) { width: 200px; height: 100px; object-fit: cover; }
   ul { list-style: none; margin: 0; padding: 0; }
   .ftr__soc { display: flex; gap: 16px; margin-top: 20px; }
   .ftr__btn {
     display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 100px; color: #fff;
-    position: relative; overflow: hidden;
+    position: relative; overflow: hidden; transition: transform .25s var(--ease), box-shadow .25s var(--ease);
   }
+  .ftr__btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(17, 17, 26, .18); }
   .ftr__btn::before { content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, .1); opacity: 0; transition: opacity .3s; }
   .ftr__btn:hover::before { opacity: 1; }
   .ftr__btn :global(svg) { position: relative; }
@@ -52,7 +53,7 @@ const logo = images.logoSchmitz;
     font-family: var(--font-head); font-weight: 700; font-size: 16.8px; line-height: 20.16px;
   }
   .ftr__nav span { position: relative; display: block; }
-  .ftr__nav span::before { content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; background: var(--blue); transform: scaleX(0); transition: transform .3s; }
+  .ftr__nav span::before { content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; border-radius: 2px; background: var(--blue); transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease); }
   .ftr__nav a:hover span::before { transform: scaleX(1); }
   @media (max-width: 767px) {
     .ftr { padding: 35px 0 23px; }

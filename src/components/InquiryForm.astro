@@ -168,7 +168,8 @@ const phoneLink = `<a href="tel:${site.emergencyPhone.tel}">${site.emergencyPhon
   .fld { margin-bottom: 17px; }
   .inp {
     width: 100%; display: block; font: 400 18px/24px var(--font-text); color: #000; background: #fff;
-    border: 1px solid rgba(255, 255, 255, .1); border-radius: 4px; padding: 19px; min-height: 64px;
+    border: 1px solid rgba(255, 255, 255, .1); border-radius: var(--radius); padding: 19px; min-height: 64px;
+    transition: box-shadow .2s, border-color .2s;
     -webkit-appearance: none; appearance: none;
   }
   .inp::placeholder { color: rgba(0, 0, 0, .3); opacity: 1; }
@@ -191,7 +192,7 @@ const phoneLink = `<a href="tel:${site.emergencyPhone.tel}">${site.emergencyPhon
 
   .chk { position: relative; display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 18px; line-height: 24px; color: #fff; }
   .chk input { position: absolute; opacity: 0; width: 18px; height: 18px; margin: 0; left: 0; top: 3px; }
-  .chk__box { flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 3px; background: #fff; border: 1px solid rgba(255,255,255,.4); position: relative; }
+  .chk__box { flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 5px; background: #fff; border: 1px solid rgba(255,255,255,.4); position: relative; }
   .chk input:checked + .chk__box::after {
     content: ''; position: absolute; left: 5px; top: 1px; width: 5px; height: 10px;
     border: solid var(--blue); border-width: 0 2px 2px 0; transform: rotate(45deg);
@@ -201,7 +202,7 @@ const phoneLink = `<a href="tel:${site.emergencyPhone.tel}">${site.emergencyPhon
 
   .fld__err { margin-top: 6px; font-size: 15px; line-height: 1.4; color: var(--cream); font-weight: 600; }
   .fld.has-err .inp { border-color: var(--cream); box-shadow: 0 0 0 2px var(--cream); }
-  .frm__status { margin-top: 8px; padding: 14px 16px; border-radius: 4px; background: #fff; color: #9b1c1c; font-size: 16px; font-weight: 600; }
+  .frm__status { margin-top: 8px; padding: 14px 16px; border-radius: var(--radius); background: #fff; color: #9b1c1c; font-size: 16px; font-weight: 600; }
   .frm__status :global(a) { color: inherit; }
   .frm__note { font-size: 18px; line-height: 27px; text-align: center; margin: 0 0 20px; }
 

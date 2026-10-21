@@ -101,7 +101,7 @@ const logo = images.logoSchmitz;
 </script>
 
 <style>
-  .hdr { background: #fff; position: relative; z-index: 50; }
+  .hdr { background: #fff; position: relative; z-index: 50; box-shadow: 0 1px 0 rgba(17, 17, 26, .06); }
   .hdr__inner { display: flex; align-items: center; justify-content: space-between; min-height: 135px; padding: 23px 0; }
   .hdr__logo { display: block; flex: none; }
   .hdr__logo :global(img) { width: 178px; height: 89px; object-fit: cover; }
@@ -116,8 +116,8 @@ const logo = images.logoSchmitz;
   }
   .menu__title { position: relative; display: block; }
   .menu__title::before {
-    content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; background: var(--blue);
-    transform: scaleX(0); transition: transform .3s;
+    content: ''; position: absolute; left: 0; right: 0; bottom: -4.8px; height: 2px; border-radius: 2px; background: var(--blue);
+    transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease);
   }
   .menu__link:hover .menu__title::before, .menu__link.is-active .menu__title::before { transform: scaleX(1); }
   .more { position: relative; }
@@ -129,7 +129,7 @@ const logo = images.logoSchmitz;
     .more { visibility: hidden; }
   }
   .more__list {
-    position: absolute; right: -60px; top: calc(100% + 20px); min-width: 169px; padding: 8px; background: #fff; border-radius: 4px;
+    position: absolute; right: -60px; top: calc(100% + 20px); min-width: 169px; padding: 8px; background: #fff; border-radius: 12px;
     box-shadow: var(--shadow-card); opacity: 0; visibility: hidden; transform: translateY(-6px); transition: opacity .25s, transform .25s, visibility .25s;
   }
   .more.is-open .more__list, .more:focus-within .more__list, .more:hover .more__list { opacity: 1; visibility: visible; transform: none; }
@@ -137,13 +137,14 @@ const logo = images.logoSchmitz;
   .more__list .menu__link { white-space: nowrap; padding: 12px; }
 
   .soc { display: flex; gap: 16px; }
-  .soc__link { display: flex; align-items: center; justify-content: center; width: 29px; height: 44px; }
+  .soc__link { display: flex; align-items: center; justify-content: center; width: 29px; height: 44px; transition: transform .25s var(--ease); }
+  .soc__link:hover { transform: translateY(-2px); }
   .soc--fb { color: var(--fb); }
   .soc--ig { color: #e0447d; }
   .soc--wa { color: var(--wa); }
 
   .burger {
-    width: 56px; height: 56px; border: 0; border-radius: 4px; background: var(--grey); color: var(--text);
+    width: 56px; height: 56px; border: 0; border-radius: 12px; background: var(--cream-light); color: var(--text);
     display: flex; align-items: center; justify-content: center; cursor: pointer;
   }
 
@@ -157,7 +158,7 @@ const logo = images.logoSchmitz;
   .mm__backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, .23); opacity: 0; transition: opacity .3s; }
   .mm__panel {
     position: absolute; top: 16px; left: 16px; right: 16px; max-height: calc(100% - 32px); overflow: auto;
-    background: #fff; border-radius: 8px; padding: 24px 24px 24px;
+    background: #fff; border-radius: var(--radius-lg); padding: 24px 24px 24px;
     box-shadow: rgba(17, 17, 26, .1) 0 16px 32px 0, rgba(17, 17, 26, .1) 0 95px 140px 0;
     transform: translateY(-20px); opacity: 0; transition: transform .6s cubic-bezier(0, .89, .1, 1), opacity .3s;
   }
