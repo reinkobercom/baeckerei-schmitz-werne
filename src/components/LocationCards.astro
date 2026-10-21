@@ -9,8 +9,9 @@ interface Loc {
 interface Props { items: readonly Loc[]; id?: string }
 const { items, id } = Astro.props;
 ---
-<section class="loc" id={id} aria-label="Unsere Standorte">
+<section class="loc" id={id} aria-labelledby={`${id || "loc"}-title`}>
   <div class="container">
+    <h2 class="sr-only" id={`${id || "loc"}-title`}>Unsere Standorte</h2>
     <div class="loc__grid">
       {items.map((l) => {
         const img = images[l.image as ImageKey];
