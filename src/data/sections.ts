@@ -8,7 +8,7 @@
 export const sections = {
   home: {
     hero: true, //                 "Deine Bäckerei in Werne an der Lippe"
-    simjueDienstag: true, //       Aktion "SIM-JÜ Dienstag in der Backstube!" (Text in announcements.ts)
+    simjueDienstag: false, //       Aktion "SIM-JÜ Dienstag in der Backstube!" (Text in announcements.ts)
     standorteAlt: false, //        Alte Standort-Karten (Baker Boys bis 13:30 Uhr, Tel. 2534)
     feiertage: false, //           "Öffnungszeiten an den Feiertagen" (Text in announcements.ts)
     standorte: true, //            Standort-Karten Baker Boys + Backstube (Daten in site.ts)
